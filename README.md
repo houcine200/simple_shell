@@ -1,4 +1,5 @@
 #simple Shell
+
 -Custom Shell is a simple implementation of a command-line shell in C programming language. It provides a basic shell environment where users can enter commands, which are then executed by the shell.
 
 *Features
