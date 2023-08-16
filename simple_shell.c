@@ -48,8 +48,9 @@ int main(void)
 		n_char = getline(&buf, &buf_size, stdin);
 		if (n_char == -1) 
 		{
-			perror("getline error");
-			exit(EXIT_FAILURE);
+			if (isatty(STDIN_FILENO) == 1)
+				write(1, "\n", 1);
+			break;
 		}
 		buf[n_char - 1] = '\0';
 		words = split(buf);
