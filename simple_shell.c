@@ -43,7 +43,8 @@ int main(void)
 
 	while(1)
 	{
-		write(1, "$ ", 2);
+		if (isatty(STDIN_FILENO) == 1)
+			write(1, "$ ", 2);
 		n_char = getline(&buf, &buf_size, stdin);
 		if (n_char == -1) 
 		{
