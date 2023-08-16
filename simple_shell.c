@@ -53,9 +53,11 @@ int main(void)
 			break;
 		}
 		buf[n_char - 1] = '\0';
+		char *input_copy = strdup(buf);
 		words = split(buf);
 		fork_execve(words);
 		free(words);
+		free(input_copy);
 		free(buf);
 	}
 
