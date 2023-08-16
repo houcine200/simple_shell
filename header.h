@@ -7,4 +7,7 @@
 #include <string.h>
 #include <sys/wait.h>
 
+char **split(char *str);
+void fork_execve(char **args);
+
 #endif
