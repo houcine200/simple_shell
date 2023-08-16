@@ -36,8 +36,10 @@ void fork_execve(char **args)
 
 int main(void)
 {
-	char *buf, *token;
-	size_t buf_size = 0, n_char = 0;
+	char *buf;
+	size_t buf_size = 0;
+	ssize_t n_char = 0;
+	char **words;
 
 	while(1)
 	{
@@ -49,7 +51,7 @@ int main(void)
 			exit(EXIT_FAILURE);
 		}
 		buf[n_char - 1] = '\0';
-		char **words = split(buf);
+		words = split(buf);
 		fork_execve(words);
 		free(words);
 		free(buf);
