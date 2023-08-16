@@ -1,3 +1,5 @@
+#include "header.h"
+
 char **split(char *str)
 {
 	char *token = strtok(str, " \t\n");
