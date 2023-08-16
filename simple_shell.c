@@ -40,6 +40,7 @@ int main(void)
 	size_t buf_size = 0;
 	ssize_t n_char = 0;
 	char **words;
+	char *input_copy;
 
 	while(1)
 	{
@@ -53,7 +54,7 @@ int main(void)
 			break;
 		}
 		buf[n_char - 1] = '\0';
-		char *input_copy = strdup(buf);
+		input_copy = strdup(buf);
 		words = split(buf);
 		fork_execve(words);
 		free(words);
