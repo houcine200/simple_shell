@@ -6,6 +6,14 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+int get_built_in(char *str)
+{
+	int flag = -1;
+
+	if (strlen(str) == 4 && strncmp(str, "exit", 4) == 0)
+		flag = 0;
+	return flag;
+}
 
 char *get_location(char *command){
 	char *path, *path_copy, *path_token, *file_path;
@@ -22,7 +30,7 @@ char *get_location(char *command){
 
 		while(path_token != NULL){
 			directory_length = strlen(path_token);
-			file_path = malloc(command_length + directory_length + 2); /* NB: we added 2 for the slash and null character we will introduce in the full command */
+			file_path = malloc(command_length + directory_length + 2); 
 			strcpy(file_path, path_token);
 			strcat(file_path, "/");
 			strcat(file_path, command);
@@ -108,6 +116,7 @@ int main(void)
 	ssize_t n_char = 0;
 	char **words;
 	char *input_copy;
+	int built_in;
 
 	while(1)
 	{
@@ -123,6 +132,13 @@ int main(void)
 		buf[n_char - 1] = '\0';
 		input_copy = strdup(buf);
 		words = split(buf);
+		built_in = get_built_in(words[0]);
+		if (built_in == 0)
+		{
+			free(words);
+			free(input_copy);
+			break;
+		}
 		fork_execve(words);
 		free(words);
 		free(input_copy);
