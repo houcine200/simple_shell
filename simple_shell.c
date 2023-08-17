@@ -129,7 +129,10 @@ int main(void)
 				write(1, "\n", 1);
 			break;
 		}
-		buf[n_char - 1] = '\0';
+		if (buf[0] == '\n')
+			continue;
+		if (n_char >= 2)
+			buf[n_char - 1] = '\0';
 		input_copy = strdup(buf);
 		words = split(buf);
 		built_in = get_built_in(words[0]);
