@@ -22,7 +22,7 @@ char *get_location(char *command){
 
 		while(path_token != NULL){
 			directory_length = strlen(path_token);
-			file_path = malloc(command_length + directory_length + 2); /* NB: we added 2 for the slash and null character we will introduce in the full command */
+			file_path = malloc(command_length + directory_length + 2); 
 			strcpy(file_path, path_token);
 			strcat(file_path, "/");
 			strcat(file_path, command);
