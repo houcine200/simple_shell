@@ -12,6 +12,8 @@ int get_built_in(char *str)
 
 	if (strlen(str) == 4 && strncmp(str, "exit", 4) == 0)
 		flag = 0;
+	else if (strlen(str) == 3 && strncmp(str, "env", 3) == 0)
+        	flag = 1;
 	return flag;
 }
 
@@ -108,7 +110,17 @@ void fork_execve(char **args)
 		free(actual_command);
 	}
 }
-
+void execute_env() 
+{
+    int i;
+    extern char **environ;
+    char **env = environ;
+    
+    for (i = 0; env[i] != NULL; i++) {
+        printf("%s\n", env[i]);
+       
+    }
+}
 int main(void)
 {
 	char *buf = NULL;
@@ -141,6 +153,12 @@ int main(void)
 			free(words);
 			free(input_copy);
 			break;
+		}
+		else if (built_in == 1) {
+			execute_env();
+			free(words);
+			free(input_copy);
+			continue;
 		}
 		fork_execve(words);
 		free(words);
