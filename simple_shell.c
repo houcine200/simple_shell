@@ -100,7 +100,10 @@ void fork_execve(char **args)
 			if (execve(actual_command, args, NULL) == -1)
 				perror("error execve");
 		} else {
-			fprintf(stderr, "Command not found: %s\n", command);
+			write(STDERR_FILENO, "Command not found: ", 19);
+			write(STDERR_FILENO, command, strlen(command));
+			write(STDERR_FILENO, "\n", 1);
+
 			exit(2);
 		}
 	}
@@ -117,7 +120,7 @@ void execute_env()
     char **env = environ;
     
     for (i = 0; env[i] != NULL; i++) {
-        printf("%s\n", env[i]);
+        puts(env[i]);
        
     }
 }
