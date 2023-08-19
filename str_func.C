@@ -80,25 +80,31 @@ char *_strcat(char *dest, char *src)
 	}
 	return (dest);
 }
-/*
- * _strncmp - Compare up to n characters between two strings.
- * @s1: The first string to compare.
- * @s2: The second string to compare.
- * @n: The maximum number of characters to compare.
+
+/**
+ * _strncmp - Compare two strings within a specified length
+ * @s1: The first string to compare
+ * @s2: The second string to compare
+ * @n: The maximum number of characters to compare
  *
- * Return: The difference between the first differing characters,
- *         or 0 if the strings match up to n characters or until a null terminator is encountered.
+ * Description:
+ * Compare the first n characters of two strings, s1 and s2.
+ * Return an integer less than, equal to, or greater than zero
+ * if the first differing character is less than, equal to,
+ * or greater than the corresponding character in the other string.
+ *
+ * Return: An integer less than, equal to, or greater than zero
  */
 
-int _strncmp(const char *s1, const char *s2, size_t n) 
+int _strncmp(const char *s1, const char *s2, size_t n)
 {
-	for (size_t i = 0; i < n; i++) 
+	for (size_t i = 0; i < n; i++)
 	{
-		if (s1[i] != s2[i]) 
+		if (s1[i] != s2[i])
 		{
 			return (unsigned char)s1[i] - (unsigned char)s2[i];
 		}
-		if (s1[i] == '\0') 
+		if (s1[i] == '\0')
 		{
 			return 0;
 		}
