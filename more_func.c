@@ -26,3 +26,30 @@ void _puts(char *str)
 	}
 	_putchar('\n');
 }
+/**
+ * _getenv - Custom implementation of the getenv function.
+ * @name: The name of the environment variable to search for.
+ *
+ * Description:
+ * This function searches for the value of the specified environment variable.
+ *
+ * Return: A pointer to the value of the environment variable if found, or NULL if not found.
+ */
+char *_getenv(char *name)
+{
+	if (name == NULL)
+		return NULL;
+
+	extern char **environ;
+	char *key;
+	int i;
+
+	for (i = 0; environ[i] != NULL; i++)
+	{
+		key = strtok(environ[i], "=");
+
+		if (strcmp(key, name) == 0)
+			return (strtok(NULL, "="));
+	}
+	return NULL;
+}
