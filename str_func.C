@@ -1,11 +1,11 @@
 #include "header.h"
 
 /**
-* _strlen - Calculates the length of a string.
-* @s: Pointer to the input string.
-*
-* Return: The length of the string.
-*/
+ * _strlen - Calculates the length of a string.
+ * @s: Pointer to the input string.
+ *
+ * Return: The length of the string.
+ */
 
 int _strlen(char *s)
 {
@@ -18,10 +18,10 @@ int _strlen(char *s)
 }
 
 /**
-* _strdup - copies a string into a new buffer
-* @str: the string to copy
-* Return: pointer to a new buffer
-*/
+ * _strdup - copies a string into a new buffer
+ * @str: the string to copy
+ * Return: pointer to a new buffer
+ */
 
 char *_strdup(char *str)
 {
@@ -43,11 +43,11 @@ char *_strdup(char *str)
 }
 
 /**
-*_strcpy - Copies a string from source to destination.
-*@dest: Pointer to the destination string.
-*@src: Pointer to the source string.
-*Return: Pointer to the destination string.
-*/
+ *_strcpy - Copies a string from source to destination.
+ *@dest: Pointer to the destination string.
+ *@src: Pointer to the source string.
+ *Return: Pointer to the destination string.
+ */
 
 char *_strcpy(char *dest, char *src)
 {
@@ -62,11 +62,11 @@ char *_strcpy(char *dest, char *src)
 }
 
 /**
-*_strcat - Concatenates two strings.
-*@dest: Pointer to the destination string.
-*@src: Pointer to the source string to be concatenated.
-*Return: Pointer to the destination string after concatenation.
-*/
+ *_strcat - Concatenates two strings.
+ *@dest: Pointer to the destination string.
+ *@src: Pointer to the source string to be concatenated.
+ *Return: Pointer to the destination string after concatenation.
+ */
 
 char *_strcat(char *dest, char *src)
 {
@@ -80,5 +80,28 @@ char *_strcat(char *dest, char *src)
 	}
 	return (dest);
 }
+/*
+ * _strncmp - Compare up to n characters between two strings.
+ * @s1: The first string to compare.
+ * @s2: The second string to compare.
+ * @n: The maximum number of characters to compare.
+ *
+ * Return: The difference between the first differing characters,
+ *         or 0 if the strings match up to n characters or until a null terminator is encountered.
+ */
 
-
+int _strncmp(const char *s1, const char *s2, size_t n) 
+{
+	for (size_t i = 0; i < n; i++) 
+	{
+		if (s1[i] != s2[i]) 
+		{
+			return (unsigned char)s1[i] - (unsigned char)s2[i];
+		}
+		if (s1[i] == '\0') 
+		{
+			return 0;
+		}
+	}
+	return 0;
+}
