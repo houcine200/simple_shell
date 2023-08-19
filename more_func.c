@@ -37,12 +37,12 @@ void _puts(char *str)
  */
 char *_getenv(char *name)
 {
-	if (name == NULL)
-		return NULL;
-
 	extern char **environ;
 	char *key;
 	int i;
+	
+	if (name == NULL)
+		return NULL;
 
 	for (i = 0; environ[i] != NULL; i++)
 	{
