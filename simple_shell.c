@@ -27,12 +27,10 @@ char *get_location(char *command)
 		return (NULL);
 
 	path_copy = strdup(path);
-
 	path_token = strtok(path_copy, ":");
 
 	while(path_token != NULL)
 	{
-
 		file_path = malloc(strlen(command) + 1 + strlen(path_token) + 1); 
 		strcpy(file_path, path_token);
 		strcat(file_path, "/");
@@ -41,30 +39,22 @@ char *get_location(char *command)
 
 		if (stat(file_path, &buffer) == 0)
 		{
-
 			free(path_copy);
-
 			return (file_path);
 		}
 		else
 		{
 			free(file_path);
 			path_token = strtok(NULL, ":");
-
 		}
-
 	}
-
 	free(path_copy);
 
 	if (stat(command, &buffer) == 0)
-	{
 		return (command);
-	}
 
 	else
 		return (NULL);
-
 }
 
 char **split(char *str)
