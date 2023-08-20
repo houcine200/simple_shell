@@ -117,21 +117,29 @@ void execute_env()
 
 	}
 }
+void _prompt(void)
+{
+    if (isatty(STDIN_FILENO) == 1)
+			write(1, "$ ", 2);
+}
+void _cleaner(char **words, char *input_copy)
+{
+    free(words);
+	free(input_copy);
+}
 int main(void)
 {
-	char *buf = NULL;
+	char *buf = NULL, *input_copy;
 	size_t buf_size = 0;
 	ssize_t n_char = 0;
 	char **words;
-	char *input_copy;
 	int built_in;
 
 	while(1)
 	{
-		if (isatty(STDIN_FILENO) == 1)
-			write(1, "$ ", 2);
+		_prompt();
 		n_char = getline(&buf, &buf_size, stdin);
-		if (n_char == -1) 
+		if (n_char == -1)
 		{
 			if (isatty(STDIN_FILENO) == 1)
 				write(1, "\n", 1);
@@ -146,23 +154,18 @@ int main(void)
 		built_in = get_built_in(words[0]);
 		if (built_in == 0)
 		{
-			free(words);
-			free(input_copy);
+			_cleaner(words, input_copy);
 			break;
 		}
 		else if (built_in == 1)
 		{
 			execute_env();
-			free(words);
-			free(input_copy);
+			_cleaner(words, input_copy);
 			continue;
 		}
 		fork_execve(words);
-		free(words);
-		free(input_copy);
-
+		_cleaner(words, input_copy);
 	}
 	free(buf);
-
 	return (0);
 }
