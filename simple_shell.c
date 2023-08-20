@@ -119,11 +119,10 @@ void execute_env()
 }
 int main(void)
 {
-	char *buf = NULL;
+	char *buf = NULL, *input_copy;
 	size_t buf_size = 0;
 	ssize_t n_char = 0;
 	char **words;
-	char *input_copy;
 	int built_in;
 
 	while(1)
@@ -131,7 +130,7 @@ int main(void)
 		if (isatty(STDIN_FILENO) == 1)
 			write(1, "$ ", 2);
 		n_char = getline(&buf, &buf_size, stdin);
-		if (n_char == -1) 
+		if (n_char == -1)
 		{
 			if (isatty(STDIN_FILENO) == 1)
 				write(1, "\n", 1);
@@ -160,9 +159,7 @@ int main(void)
 		fork_execve(words);
 		free(words);
 		free(input_copy);
-
 	}
 	free(buf);
-
 	return (0);
 }
