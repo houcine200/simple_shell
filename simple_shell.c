@@ -14,7 +14,7 @@ int get_built_in(char *str)
 		flag = 0;
 	else if (strlen(str) == 3 && strncmp(str, "env", 3) == 0)
 		flag = 1;
-	return flag;
+	return (flag);
 }
 
 char *get_location(char *command)
@@ -29,9 +29,9 @@ char *get_location(char *command)
 	path_copy = strdup(path);
 	path_token = strtok(path_copy, ":");
 
-	while(path_token != NULL)
+	while (path_token != NULL)
 	{
-		file_path = malloc(strlen(command) + 1 + strlen(path_token) + 1); 
+		file_path = malloc(strlen(command) + 1 + strlen(path_token) + 1);
 		strcpy(file_path, path_token);
 		strcat(file_path, "/");
 		strcat(file_path, command);
@@ -69,7 +69,7 @@ char **split(char *str)
 		token = strtok(NULL, " \t\n");
 	}
 	arr[i] = NULL;
-	return arr;
+	return (arr);
 }
 void fork_execve(char **args)
 {
@@ -77,6 +77,7 @@ void fork_execve(char **args)
 	pid_t pid = fork();
 	char *command = args[0];
 	char *actual_command = NULL;
+
 	actual_command = get_location(command);
 	if (pid < 0)
 	{
@@ -105,7 +106,7 @@ void fork_execve(char **args)
 		free(actual_command);
 	}
 }
-void execute_env() 
+void execute_env(void)
 {
 	int i;
 	extern char **environ;
@@ -119,12 +120,12 @@ void execute_env()
 }
 void _prompt(void)
 {
-    if (isatty(STDIN_FILENO) == 1)
-			write(1, "$ ", 2);
+	if (isatty(STDIN_FILENO) == 1)
+		write(1, "$ ", 2);
 }
 void _cleaner(char **words, char *input_copy)
 {
-    free(words);
+	free(words);
 	free(input_copy);
 }
 int main(void)
@@ -135,7 +136,7 @@ int main(void)
 	char **words;
 	int built_in;
 
-	while(1)
+	while (1)
 	{
 		_prompt();
 		n_char = getline(&buf, &buf_size, stdin);
