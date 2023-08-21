@@ -140,12 +140,15 @@ void _cleaner(char **words, char *input_copy) {
 	free(words);
 	free(input_copy);
 }
+int is_empty_or_whitespace(const char *str)
+{
+	int i;
 
-/**
- * main - shell
- *
- * Return: Always 0.
- */
+	for (i = 0; str[i] != '\0'; i++)
+		if (str[i] != ' ' && str[i] != '\t')
+			return (0);
+	return (1);
+}
 
 int main(void)
 {
@@ -169,21 +172,8 @@ int main(void)
 			continue;
 		if (n_char >= 2)
 			buf[n_char - 1] = '\0';
-		// Check if the input consists of only spaces or tabs
-		int i;
-		int only_whitespace = 1; // Assume it contains only whitespace
-		for (i = 0; buf[i] != '\0'; i++)
-		{
-			if (buf[i] != ' ' && buf[i] != '\t')
-			{
-				only_whitespace = 0; // Contains non-whitespace character
-				break;
-			}
-		}
-
-		// Handle the case of empty or whitespace-only line.
-		if (buf[0] == '\0' || only_whitespace)
-			continue;
+		if (is_empty_or_whitespace(buf))
+                	continue;
 		input_copy = strdup(buf);
 		words = split(input_copy);
 		built_in = get_built_in(words[0]);
