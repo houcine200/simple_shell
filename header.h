@@ -13,15 +13,22 @@ int get_built_in(char *str);
 char *get_location(char *command);
 char **split(char *str);
 void fork_execve(char **args);
-void execute_env();
+void execute_env(void);
+void _prompt(void);
+void _cleaner(char **words, char *input_copy);
+int is_empty_or_whitespace(const char *str);
+void handle_exit(char **words, char *input_copy, char *buf, int status);
 
 int _putchar(char c);
 void _puts(char *str);
 char *_getenv(char *name);
+int _atoi(char *s);
 
 int _strlen(char *s);
 char *_strdup(char *str);
 char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);
 int _strncmp(const char *s1, const char *s2, size_t n);
+
+
 #endif
