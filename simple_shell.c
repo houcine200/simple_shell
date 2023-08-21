@@ -51,7 +51,7 @@ char *get_location(char *command)
 	free(path_copy);
 
 	if (stat(command, &buffer) == 0)
-		return(command);
+		return (command);
 
 	else
 		return (NULL);
@@ -71,7 +71,7 @@ char **split(char *str)
 	arr[i] = NULL;
 	return (arr);
 }
-void fork_execve(char **args, char *buf, char **words ,char *input_copy)
+void fork_execve(char **args, char *buf, char **words, char *input_copy)
 {
 
 	pid_t pid = fork();
@@ -85,7 +85,7 @@ void fork_execve(char **args, char *buf, char **words ,char *input_copy)
 		perror("error fork");
 		free(words);
 		free(input_copy);
-		free(buf);	
+		free(buf);
 		exit(1);
 	}
 	if (pid == 0)
@@ -94,11 +94,11 @@ void fork_execve(char **args, char *buf, char **words ,char *input_copy)
 		{
 			if (execve(actual_command, args, NULL) == -1)
 			{
-			perror("error execve");
-			free(input_copy);
-			free(words);
-        		free(buf);
-        		exit(2); // Terminate the child process
+				perror("error execve");
+				free(input_copy);
+				free(words);
+				free(buf);
+				exit(2);
 			}
 		}
 		else
@@ -119,6 +119,7 @@ void fork_execve(char **args, char *buf, char **words ,char *input_copy)
 			free(actual_command);
 	}
 }
+
 void execute_env(void)
 {
 	int i;
@@ -131,15 +132,19 @@ void execute_env(void)
 
 	}
 }
+
 void _prompt(void)
 {
 	if (isatty(STDIN_FILENO) == 1)
 		write(1, "$ ", 2);
 }
-void _cleaner(char **words, char *input_copy) {
+
+void _cleaner(char **words, char *input_copy)
+{
 	free(words);
 	free(input_copy);
 }
+
 int is_empty_or_whitespace(const char *str)
 {
 	int i;
@@ -151,19 +156,19 @@ int is_empty_or_whitespace(const char *str)
 }
 void handle_exit(char **words, char *input_copy, char *buf, int status)
 {
-    	if (words[1] == NULL)
-			{
-				_cleaner(words, input_copy);
-				free(buf);
-				exit(0);
-			}
-			else if (words[1] != NULL)
-			{
-				status = atoi(words[1]);
-				_cleaner(words, input_copy);
-				free(buf);
-				exit(status);
-			}
+	if (words[1] == NULL)
+	{
+		_cleaner(words, input_copy);
+		free(buf);
+		exit(0);
+	}
+	else if (words[1] != NULL)
+	{
+		status = atoi(words[1]);
+		_cleaner(words, input_copy);
+		free(buf);
+		exit(status);
+	}
 }
 int main(void)
 {
@@ -171,7 +176,7 @@ int main(void)
 	size_t buf_size = 0;
 	ssize_t n_char = 0;
 	char **words;
-	int built_in, status;
+	int built_in, status = 0;
 
 	while (1)
 	{
@@ -188,16 +193,15 @@ int main(void)
 		if (n_char >= 2)
 			buf[n_char - 1] = '\0';
 		if (is_empty_or_whitespace(buf))
-                	continue;
+			continue;
 		input_copy = strdup(buf);
 		words = split(input_copy);
 		built_in = get_built_in(words[0]);
-		
+
 		if (built_in == 0)
 		{
-		    handle_exit(words, input_copy, buf, status);
+			handle_exit(words, input_copy, buf, status);
 		}
-	
 		else if (built_in == 1)
 		{
 			execute_env();
@@ -210,4 +214,3 @@ int main(void)
 	free(buf);
 	return (0);
 }
-
