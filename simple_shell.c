@@ -51,7 +51,7 @@ char *get_location(char *command)
 	free(path_copy);
 
 	if (stat(command, &buffer) == 0)
-		return (command);
+		return(command);
 
 	else
 		return (NULL);
@@ -71,17 +71,21 @@ char **split(char *str)
 	arr[i] = NULL;
 	return (arr);
 }
-void fork_execve(char **args)
+void fork_execve(char **args, char *buf, char **words ,char *input_copy)
 {
 
 	pid_t pid = fork();
 	char *command = args[0];
 	char *actual_command = NULL;
+	 int status;
 
 	actual_command = get_location(command);
 	if (pid < 0)
 	{
 		perror("error fork");
+		free(words);
+                free(input_copy);
+                free(buf);	
 		exit(1);
 	}
 	if (pid == 0)
@@ -96,14 +100,17 @@ void fork_execve(char **args)
 			write(STDERR_FILENO, "Command not found: ", 19);
 			write(STDERR_FILENO, command, strlen(command));
 			write(STDERR_FILENO, "\n", 1);
-
+			free(words);
+			free(input_copy);
+			free(buf);
 			exit(2);
 		}
 	}
 	if (pid > 0)
 	{
-		wait(NULL);
-		free(actual_command);
+		wait(&status);
+		if (actual_command != NULL && actual_command != command)
+                	free(actual_command);
 	}
 }
 void execute_env(void)
@@ -123,18 +130,18 @@ void _prompt(void)
 	if (isatty(STDIN_FILENO) == 1)
 		write(1, "$ ", 2);
 }
-void _cleaner(char **words, char *input_copy)
-{
-	free(words);
-	free(input_copy);
+void _cleaner(char **words, char *input_copy) {
+    free(words);
+    free(input_copy);
 }
+
 int main(void)
 {
 	char *buf = NULL, *input_copy;
 	size_t buf_size = 0;
 	ssize_t n_char = 0;
 	char **words;
-	int built_in;
+	int built_in, status;
 
 	while (1)
 	{
@@ -151,12 +158,23 @@ int main(void)
 		if (n_char >= 2)
 			buf[n_char - 1] = '\0';
 		input_copy = strdup(buf);
-		words = split(buf);
+		words = split(input_copy);
 		built_in = get_built_in(words[0]);
 		if (built_in == 0)
-		{
+		{   
+		    if (words[1] == NULL)
+		    {
 			_cleaner(words, input_copy);
-			break;
+			free(buf);
+			exit(0);
+		    }
+		    else if (words[1] != NULL)
+		    {
+		        status = atoi(words[1]);
+		        _cleaner(words, input_copy);
+			free(buf);
+		        exit(status);
+		    }
 		}
 		else if (built_in == 1)
 		{
@@ -164,7 +182,7 @@ int main(void)
 			_cleaner(words, input_copy);
 			continue;
 		}
-		fork_execve(words);
+		fork_execve(words, buf, words, input_copy);
 		_cleaner(words, input_copy);
 	}
 	free(buf);
