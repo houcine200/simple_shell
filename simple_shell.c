@@ -135,6 +135,12 @@ void _cleaner(char **words, char *input_copy) {
     free(input_copy);
 }
 
+/**
+ * main - shell
+ *
+ * Return: Always 0.
+ */
+
 int main(void)
 {
 	char *buf = NULL, *input_copy;
