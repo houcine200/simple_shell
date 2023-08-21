@@ -149,7 +149,22 @@ int is_empty_or_whitespace(const char *str)
 			return (0);
 	return (1);
 }
-
+void handle_exit(char **words, char *input_copy, char *buf, int status)
+{
+    	if (words[1] == NULL)
+			{
+				_cleaner(words, input_copy);
+				free(buf);
+				exit(0);
+			}
+			else if (words[1] != NULL)
+			{
+				status = atoi(words[1]);
+				_cleaner(words, input_copy);
+				free(buf);
+				exit(status);
+			}
+}
 int main(void)
 {
 	char *buf = NULL, *input_copy;
@@ -177,22 +192,12 @@ int main(void)
 		input_copy = strdup(buf);
 		words = split(input_copy);
 		built_in = get_built_in(words[0]);
+		
 		if (built_in == 0)
-		{   
-			if (words[1] == NULL)
-			{
-				_cleaner(words, input_copy);
-				free(buf);
-				exit(0);
-			}
-			else if (words[1] != NULL)
-			{
-				status = atoi(words[1]);
-				_cleaner(words, input_copy);
-				free(buf);
-				exit(status);
-			}
+		{
+		    handle_exit(words, input_copy, buf, status);
 		}
+	
 		else if (built_in == 1)
 		{
 			execute_env();
@@ -205,3 +210,4 @@ int main(void)
 	free(buf);
 	return (0);
 }
+
