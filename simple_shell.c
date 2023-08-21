@@ -93,7 +93,13 @@ void fork_execve(char **args, char *buf, char **words ,char *input_copy)
 		if (actual_command != NULL)
 		{
 			if (execve(actual_command, args, NULL) == -1)
-				perror("error execve");
+			{
+			perror("error execve");
+			free(input_copy);
+			free(words);
+        		free(buf);
+        		exit(2); // Terminate the child process
+			}
 		}
 		else
 		{
