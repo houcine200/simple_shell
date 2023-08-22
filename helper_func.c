@@ -28,11 +28,11 @@ void _puts(char *str)
 }
 int _strcmp(const char *s1, const char *s2) 
 {
-    while (*s1 && *s1 == *s2) {
-        s1++;
-        s2++;
-    }
-    return *(unsigned char *)s1 - *(unsigned char *)s2;
+	while (*s1 && *s1 == *s2) {
+		s1++;
+		s2++;
+	}
+	return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 /**
  * _atoi - converts a string to an integer.
@@ -59,17 +59,22 @@ int _atoi(char *s)
 }
 char *_getenv(const char *name) 
 {
-    if (name == NULL) {
-        return NULL;
-    }
+	size_t nameLen;
+	char **env;
 
-    size_t nameLen = _strlen(name);
+	if (name == NULL) {
+		return (NULL);
+	}
 
-    for (char **env = environ; *env != NULL; env++) {
-        if (_strncmp(*env, name, nameLen) == 0 && (*env)[nameLen] == '=') {
-            return *env + nameLen + 1;  // Return value after '=' character
-        }
-    }
+	nameLen = _strlen(name);
 
-    return NULL;  // Variable not found
+	for (env = environ; *env != NULL; env++)
+	{
+		if (_strncmp(*env, name, nameLen) == 0 && (*env)[nameLen] == '=')
+		{
+			return (*env + nameLen + 1);
+		}
+	}
+
+	return (NULL);
 }
