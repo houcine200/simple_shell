@@ -5,8 +5,10 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include "header.h"
 
-extern char **environ;
+void _cleaner(char **words, char *input_copy);
+
 int get_built_in(char *str)
 {
 	int flag = -1;
@@ -74,18 +76,15 @@ char **split(char *str)
 }
 void fork_execve(char **args, char *buf, char **words, char *input_copy)
 {
-
 	pid_t pid = fork();
-	char *command = args[0];
-	char *actual_command = NULL;
+	char *command = args[0], *actual_command = NULL;
 	int status;
 
 	actual_command = get_location(command);
 	if (pid < 0)
 	{
 		perror("error fork");
-		free(words);
-		free(input_copy);
+		_cleaner(words, input_copy);
 		free(buf);
 		exit(1);
 	}
@@ -96,8 +95,7 @@ void fork_execve(char **args, char *buf, char **words, char *input_copy)
 			if (execve(actual_command, args, NULL) == -1)
 			{
 				perror("error execve");
-				free(input_copy);
-				free(words);
+				_cleaner(words, input_copy);
 				free(buf);
 				exit(2);
 			}
@@ -107,8 +105,7 @@ void fork_execve(char **args, char *buf, char **words, char *input_copy)
 			write(STDERR_FILENO, "Command not found: ", 19);
 			write(STDERR_FILENO, command, strlen(command));
 			write(STDERR_FILENO, "\n", 1);
-			free(words);
-			free(input_copy);
+			_cleaner(words, input_copy);
 			free(buf);
 			exit(2);
 		}
@@ -170,23 +167,28 @@ void handle_exit(char **words, char *input_copy, char *buf, int status)
 		exit(status);
 	}
 }
-void execute_setenv(char **args) {
-	if (args[1] == NULL || args[2] == NULL) {
+void execute_setenv(char **args)
+{
+	if (args[1] == NULL || args[2] == NULL)
+	{
 		fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
 		return;
 	}
-
-	if (setenv(args[1], args[2], 1) != 0) {
+	if (setenv(args[1], args[2], 1) != 0)
+	{
 		perror("setenv");
 	}
 }
-void execute_unsetenv(char **args) {
-	if (args[1] == NULL) {
+void execute_unsetenv(char **args)
+{
+	if (args[1] == NULL)
+	{
 		fprintf(stderr, "Usage: unsetenv VARIABLE\n");
 		return;
 	}
 
-	if (unsetenv(args[1]) != 0) {
+	if (unsetenv(args[1]) != 0)
+	{
 		perror("unsetenv");
 	}
 }
@@ -195,12 +197,12 @@ int _setenv(const char *name, const char *value, int overwrite)
 	char *new_var;
 	int i;
 
-	if(!name || !value)
-		return -1;
+	if (!name || !value)
+		return (-1);
 
 	for (i = 0; environ[i]; i++)
 	{
-		if(strncmp(environ[i], name, strlen(name)) == 0)
+		if (strncmp(environ[i], name, strlen(name)) == 0)
 		{
 			if (overwrite)
 			{
@@ -209,9 +211,9 @@ int _setenv(const char *name, const char *value, int overwrite)
 				strcat(new_var, "=");
 				strcat(new_var, value);
 				environ[i] = new_var;
-				return 0;
+				return (0);
 			}
-			return 0;
+			return (0);
 		}
 	}
 	new_var = malloc(strlen(name) + strlen(value) + 2);
@@ -220,50 +222,51 @@ int _setenv(const char *name, const char *value, int overwrite)
 	strcat(new_var, value);
 	environ[i] = new_var;
 	environ[i + 1] = NULL;
-	return 0;
+	return (0);
 }
 int _unsetenv(const char *name)
 {
 	int i, j = 0;
 
 	if (!name || name[0] == '\0' || strchr(name, '=') != NULL)
-		return -1;
+		return (-1);
 
 	for (i = 0; environ[i]; i++)
 	{
-		if (strncmp(environ[i], name, strlen(name)) == 0 && environ[i][strlen(name)] == '=')
+		if (strncmp(environ[i], name, strlen(name)) == 0
+				&& environ[i][strlen(name)] == '=')
 		{
-			// Free memory of the environment variable
 			free(environ[i]);
 
-			// Shift remaining variables
 			for (j = i; environ[j] != NULL; j++)
 			{
 				environ[j] = environ[j + 1];
 			}
 
-			return 0;
+			return (0);
 		}
 	}
 
-	return 0; // Variable not found, nothing to unset
+	return (0);
 }
 void _handleNonBuiltInCommands(char **words, char *input_copy, char *buf)
 {
-	if (strcmp(words[0], "setenv") == 0) {
+	if (strcmp(words[0], "setenv") == 0)
+	{
 		execute_setenv(words);
 		_cleaner(words, input_copy);
-		
+
 	}
-	else if (strcmp(words[0], "unsetenv") == 0) {
+	else if (strcmp(words[0], "unsetenv") == 0)
+	{
 		execute_unsetenv(words);
 		_cleaner(words, input_copy);
 
 	}
 	else
 	{
-	fork_execve(words, buf, words, input_copy);
-	_cleaner(words, input_copy);
+		fork_execve(words, buf, words, input_copy);
+		_cleaner(words, input_copy);
 	}
 }
 int main(void)
@@ -301,9 +304,9 @@ int main(void)
 			_cleaner(words, input_copy);
 			continue;
 		}
-		else 
+		else
 			_handleNonBuiltInCommands(words, input_copy, buf);
 	}
-		free(buf);
-		return (0);
+	free(buf);
+	return (0);
 }

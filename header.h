@@ -9,10 +9,12 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+extern char **environ;
+
 int get_built_in(char *str);
 char *get_location(char *command);
 char **split(char *str);
-void fork_execve(char **args);
+void fork_execve(char **args, char *buf, char **words, char *input_copy);
 void execute_env(void);
 void _prompt(void);
 void _cleaner(char **words, char *input_copy);
