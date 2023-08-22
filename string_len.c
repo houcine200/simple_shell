@@ -32,3 +32,10 @@ char *_strdup(char *str)
 	buff[j] = '\0';
 	return (buff);
 }
+char *_strcpy(char *dest, const char *src) 
+{
+    char *saved_dest = dest;
+    while ((*dest++ = *src++))
+        ;
+    return saved_dest;
+}

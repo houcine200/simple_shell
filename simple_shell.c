@@ -39,7 +39,7 @@ char *get_location(char *command)
 	while (path_token != NULL)
 	{
 		file_path = malloc(_strlen(command) + 1 + _strlen(path_token) + 1);
-		strcpy(file_path, path_token);
+		_strcpy(file_path, path_token);
 		strcat(file_path, "/");
 		strcat(file_path, command);
 		strcat(file_path, "\0");
@@ -206,7 +206,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 			if (overwrite)
 			{
 				new_var = malloc(_strlen(name) + _strlen(value) + 2);
-				strcpy(new_var, name);
+				_strcpy(new_var, name);
 				strcat(new_var, "=");
 				strcat(new_var, value);
 				environ[i] = new_var;
@@ -216,7 +216,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 		}
 	}
 	new_var = malloc(_strlen(name) + _strlen(value) + 2);
-	strcpy(new_var, name);
+	_strcpy(new_var, name);
 	strcat(new_var, "=");
 	strcat(new_var, value);
 	environ[i] = new_var;
