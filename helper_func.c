@@ -63,10 +63,10 @@ char *_getenv(const char *name)
         return NULL;
     }
 
-    size_t nameLen = strlen(name);
+    size_t nameLen = _strlen(name);
 
     for (char **env = environ; *env != NULL; env++) {
-        if (strncmp(*env, name, nameLen) == 0 && (*env)[nameLen] == '=') {
+        if (_strncmp(*env, name, nameLen) == 0 && (*env)[nameLen] == '=') {
             return *env + nameLen + 1;  // Return value after '=' character
         }
     }
