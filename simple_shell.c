@@ -170,6 +170,26 @@ void handle_exit(char **words, char *input_copy, char *buf, int status)
 		exit(status);
 	}
 }
+void execute_setenv(char **args) {
+    if (args[1] == NULL || args[2] == NULL) {
+        fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+        return;
+    }
+
+    if (setenv(args[1], args[2], 1) != 0) {
+        perror("setenv");
+    }
+}
+void execute_unsetenv(char **args) {
+    if (args[1] == NULL) {
+        fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+        return;
+    }
+
+    if (unsetenv(args[1]) != 0) {
+        perror("unsetenv");
+    }
+}
 int main(void)
 {
 	char *buf = NULL, *input_copy;
@@ -208,6 +228,16 @@ int main(void)
 			_cleaner(words, input_copy);
 			continue;
 		}
+		 else if (strcmp(words[0], "setenv") == 0) {
+        execute_setenv(words);
+        _cleaner(words, input_copy);
+        continue;
+    }
+     else if (strcmp(words[0], "unsetenv") == 0) {
+        execute_unsetenv(words);
+        _cleaner(words, input_copy);
+        continue;
+    }
 		fork_execve(words, buf, words, input_copy);
 		_cleaner(words, input_copy);
 	}
