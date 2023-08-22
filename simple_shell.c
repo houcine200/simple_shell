@@ -7,7 +7,11 @@
 #include <sys/stat.h>
 #include "header.h"
 
-void _cleaner(char **words, char *input_copy);
+void _cleaner(char **words, char *input_copy)
+{
+	free(words);
+	free(input_copy);
+}
 
 int get_built_in(char *str)
 {
@@ -136,11 +140,6 @@ void _prompt(void)
 		write(1, "$ ", 2);
 }
 
-void _cleaner(char **words, char *input_copy)
-{
-	free(words);
-	free(input_copy);
-}
 
 int is_empty_or_whitespace(const char *str)
 {
