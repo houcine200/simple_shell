@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+   extern char **environ;
 int get_built_in(char *str)
 {
 	int flag = -1;
@@ -123,7 +124,6 @@ void fork_execve(char **args, char *buf, char **words, char *input_copy)
 void execute_env(void)
 {
 	int i;
-	extern char **environ;
 	char **env = environ;
 
 	for (i = 0; env[i] != NULL; i++)
@@ -189,6 +189,64 @@ void execute_unsetenv(char **args) {
     if (unsetenv(args[1]) != 0) {
         perror("unsetenv");
     }
+}
+int _setenv(const char *name, const char *value, int overwrite)
+{
+    char *new_var;
+    int i;
+    
+    if(!name || !value)
+        return -1;
+        
+    for (i = 0; environ[i]; i++)
+    {
+        if(strncmp(environ[i], name, strlen(name)) == 0)
+        {
+            if (overwrite)
+            {
+                new_var = malloc(strlen(name) + strlen(value) + 2);
+                strcpy(new_var, name);
+                strcat(new_var, "=");
+                strcat(new_var, value);
+                environ[i] = new_var;
+                return 0;
+            }
+            return 0;
+        }
+    }
+     new_var = malloc(strlen(name) + strlen(value) + 2);
+                strcpy(new_var, name);
+                strcat(new_var, "=");
+                strcat(new_var, value);
+                environ[i] = new_var;
+                environ[i + 1] = NULL;
+                return 0;
+}
+int _unsetenv(const char *name)
+{
+    int i, j = 0;
+
+    if (!name || name[0] == '\0' || strchr(name, '=') != NULL)
+        return -1;
+
+    for (i = 0; environ[i]; i++)
+    {
+        if (strncmp(environ[i], name, strlen(name)) == 0 && environ[i][strlen(name)] == '=')
+        {
+            // Free memory of the environment variable
+            free(environ[i]);
+            
+            // Shift remaining variables
+            for (j = i; environ[j] != NULL; j++)
+            {
+                environ[j] = environ[j + 1];
+            }
+            
+            return 0;
+        }
+    }
+
+    return 0; // Variable not found, nothing to unset
 }
 int main(void)
 {
