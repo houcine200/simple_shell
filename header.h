@@ -20,6 +20,11 @@ void _prompt(void);
 void _cleaner(char **words, char *input_copy);
 int is_empty_or_whitespace(const char *str);
 void handle_exit(char **words, char *input_copy, char *buf, int status);
+void execute_setenv(char **args);
+void execute_unsetenv(char **args);
+int _setenv(const char *name, const char *value, int overwrite);
+int _unsetenv(const char *name);
+void _handleNonBuiltInCommands(char **words, char *input_copy, char *buf);
 
 int _putchar(char c);
 void _puts(char *str);
