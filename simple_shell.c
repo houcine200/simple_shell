@@ -250,13 +250,13 @@ int _unsetenv(const char *name)
 }
 void _handleNonBuiltInCommands(char **words, char *input_copy, char *buf)
 {
-	if (strcmp(words[0], "setenv") == 0)
+	if (_strcmp(words[0], "setenv") == 0)
 	{
 		execute_setenv(words);
 		_cleaner(words, input_copy);
 
 	}
-	else if (strcmp(words[0], "unsetenv") == 0)
+	else if (_strcmp(words[0], "unsetenv") == 0)
 	{
 		execute_unsetenv(words);
 		_cleaner(words, input_copy);

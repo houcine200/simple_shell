@@ -31,7 +31,7 @@ int _putchar(char c);
 void _puts(char *str);
 char *_getenv(char *name);
 int _atoi(char *s);
-int _strcmp(char *s1, char *s2);
+int _strcmp(const char *s1, const char *s2);
 
 int _strlen(const char *s);
 char *_strdup(char *str);
