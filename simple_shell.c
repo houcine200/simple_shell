@@ -171,7 +171,7 @@ void execute_setenv(char **args)
 {
 	if (args[1] == NULL || args[2] == NULL)
 	{
-		fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+		write(STDERR_FILENO, "Usage: setenv VARIABLE VALUE\n", strlen("Usage: setenv VARIABLE VALUE\n"));
 		return;
 	}
 	if (setenv(args[1], args[2], 1) != 0)
@@ -183,7 +183,7 @@ void execute_unsetenv(char **args)
 {
 	if (args[1] == NULL)
 	{
-		fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+		write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n", strlen("Usage: unsetenv VARIABLE\n"));
 		return;
 	}
 
