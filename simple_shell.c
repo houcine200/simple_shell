@@ -129,7 +129,7 @@ void execute_env(void)
 
 	for (i = 0; env[i] != NULL; i++)
 	{
-		puts(env[i]);
+		_puts(env[i]);
 
 	}
 }
