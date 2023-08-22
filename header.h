@@ -30,6 +30,7 @@ int _putchar(char c);
 void _puts(char *str);
 char *_getenv(char *name);
 int _atoi(char *s);
+int _strcmp(char *s1, char *s2);
 
 int _strlen(char *s);
 char *_strdup(char *str);
