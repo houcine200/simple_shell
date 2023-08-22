@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stddef.h>
 
 extern char **environ;
 
@@ -32,7 +33,7 @@ char *_getenv(char *name);
 int _atoi(char *s);
 int _strcmp(char *s1, char *s2);
 
-int _strlen(char *s);
+int _strlen(const char *s);
 char *_strdup(char *str);
 char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);

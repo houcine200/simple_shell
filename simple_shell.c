@@ -17,9 +17,9 @@ int get_built_in(char *str)
 {
 	int flag = -1;
 
-	if (strlen(str) == 4 && strncmp(str, "exit", 4) == 0)
+	if (_strlen(str) == 4 && strncmp(str, "exit", 4) == 0)
 		flag = 0;
-	else if (strlen(str) == 3 && strncmp(str, "env", 3) == 0)
+	else if (_strlen(str) == 3 && strncmp(str, "env", 3) == 0)
 		flag = 1;
 	return (flag);
 }
@@ -33,12 +33,12 @@ char *get_location(char *command)
 	if (path == NULL)
 		return (NULL);
 
-	path_copy = strdup(path);
+	path_copy = _strdup(path);
 	path_token = strtok(path_copy, ":");
 
 	while (path_token != NULL)
 	{
-		file_path = malloc(strlen(command) + 1 + strlen(path_token) + 1);
+		file_path = malloc(_strlen(command) + 1 + _strlen(path_token) + 1);
 		strcpy(file_path, path_token);
 		strcat(file_path, "/");
 		strcat(file_path, command);
@@ -107,7 +107,7 @@ void fork_execve(char **args, char *buf, char **words, char *input_copy)
 		else
 		{
 			write(STDERR_FILENO, "Command not found: ", 19);
-			write(STDERR_FILENO, command, strlen(command));
+			write(STDERR_FILENO, command, _strlen(command));
 			write(STDERR_FILENO, "\n", 1);
 			_cleaner(words, input_copy);
 			free(buf);
@@ -170,7 +170,7 @@ void execute_setenv(char **args)
 {
 	if (args[1] == NULL || args[2] == NULL)
 	{
-		write(STDERR_FILENO, "Usage: setenv VARIABLE VALUE\n", strlen("Usage: setenv VARIABLE VALUE\n"));
+		write(STDERR_FILENO, "Usage: setenv VARIABLE VALUE\n", _strlen("Usage: setenv VARIABLE VALUE\n"));
 		return;
 	}
 	if (setenv(args[1], args[2], 1) != 0)
@@ -182,7 +182,7 @@ void execute_unsetenv(char **args)
 {
 	if (args[1] == NULL)
 	{
-		write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n", strlen("Usage: unsetenv VARIABLE\n"));
+		write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n", _strlen("Usage: unsetenv VARIABLE\n"));
 		return;
 	}
 
@@ -201,11 +201,11 @@ int _setenv(const char *name, const char *value, int overwrite)
 
 	for (i = 0; environ[i]; i++)
 	{
-		if (strncmp(environ[i], name, strlen(name)) == 0)
+		if (strncmp(environ[i], name, _strlen(name)) == 0)
 		{
 			if (overwrite)
 			{
-				new_var = malloc(strlen(name) + strlen(value) + 2);
+				new_var = malloc(_strlen(name) + _strlen(value) + 2);
 				strcpy(new_var, name);
 				strcat(new_var, "=");
 				strcat(new_var, value);
@@ -215,7 +215,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 			return (0);
 		}
 	}
-	new_var = malloc(strlen(name) + strlen(value) + 2);
+	new_var = malloc(_strlen(name) + _strlen(value) + 2);
 	strcpy(new_var, name);
 	strcat(new_var, "=");
 	strcat(new_var, value);
@@ -232,8 +232,8 @@ int _unsetenv(const char *name)
 
 	for (i = 0; environ[i]; i++)
 	{
-		if (strncmp(environ[i], name, strlen(name)) == 0
-				&& environ[i][strlen(name)] == '=')
+		if (strncmp(environ[i], name, _strlen(name)) == 0
+				&& environ[i][_strlen(name)] == '=')
 		{
 			free(environ[i]);
 
@@ -292,7 +292,7 @@ int main(void)
 			buf[n_char - 1] = '\0';
 		if (is_empty_or_whitespace(buf))
 			continue;
-		input_copy = strdup(buf);
+		input_copy = _strdup(buf);
 		words = split(input_copy);
 		built_in = get_built_in(words[0]);
 		if (built_in == 0)
