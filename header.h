@@ -29,7 +29,7 @@ void _handleNonBuiltInCommands(char **words, char *input_copy, char *buf);
 
 int _putchar(char c);
 void _puts(char *str);
-char *_getenv(char *name);
+char *_getenv(const char *name);
 int _atoi(char *s);
 int _strcmp(const char *s1, const char *s2);
 

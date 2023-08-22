@@ -29,7 +29,7 @@ char *get_location(char *command)
 	char *path, *path_copy, *path_token, *file_path;
 	struct stat buffer;
 
-	path = getenv("PATH");
+	path = _getenv("PATH");
 	if (path == NULL)
 		return (NULL);
 
@@ -160,7 +160,7 @@ void handle_exit(char **words, char *input_copy, char *buf, int status)
 	}
 	else if (words[1] != NULL)
 	{
-		status = atoi(words[1]);
+		status = _atoi(words[1]);
 		_cleaner(words, input_copy);
 		free(buf);
 		exit(status);
