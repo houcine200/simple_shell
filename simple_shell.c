@@ -6,7 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-   extern char **environ;
+extern char **environ;
 int get_built_in(char *str)
 {
 	int flag = -1;
@@ -171,82 +171,100 @@ void handle_exit(char **words, char *input_copy, char *buf, int status)
 	}
 }
 void execute_setenv(char **args) {
-    if (args[1] == NULL || args[2] == NULL) {
-        fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
-        return;
-    }
+	if (args[1] == NULL || args[2] == NULL) {
+		fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+		return;
+	}
 
-    if (setenv(args[1], args[2], 1) != 0) {
-        perror("setenv");
-    }
+	if (setenv(args[1], args[2], 1) != 0) {
+		perror("setenv");
+	}
 }
 void execute_unsetenv(char **args) {
-    if (args[1] == NULL) {
-        fprintf(stderr, "Usage: unsetenv VARIABLE\n");
-        return;
-    }
+	if (args[1] == NULL) {
+		fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+		return;
+	}
 
-    if (unsetenv(args[1]) != 0) {
-        perror("unsetenv");
-    }
+	if (unsetenv(args[1]) != 0) {
+		perror("unsetenv");
+	}
 }
 int _setenv(const char *name, const char *value, int overwrite)
 {
-    char *new_var;
-    int i;
-    
-    if(!name || !value)
-        return -1;
-        
-    for (i = 0; environ[i]; i++)
-    {
-        if(strncmp(environ[i], name, strlen(name)) == 0)
-        {
-            if (overwrite)
-            {
-                new_var = malloc(strlen(name) + strlen(value) + 2);
-                strcpy(new_var, name);
-                strcat(new_var, "=");
-                strcat(new_var, value);
-                environ[i] = new_var;
-                return 0;
-            }
-            return 0;
-        }
-    }
-     new_var = malloc(strlen(name) + strlen(value) + 2);
-                strcpy(new_var, name);
-                strcat(new_var, "=");
-                strcat(new_var, value);
-                environ[i] = new_var;
-                environ[i + 1] = NULL;
-                return 0;
+	char *new_var;
+	int i;
+
+	if(!name || !value)
+		return -1;
+
+	for (i = 0; environ[i]; i++)
+	{
+		if(strncmp(environ[i], name, strlen(name)) == 0)
+		{
+			if (overwrite)
+			{
+				new_var = malloc(strlen(name) + strlen(value) + 2);
+				strcpy(new_var, name);
+				strcat(new_var, "=");
+				strcat(new_var, value);
+				environ[i] = new_var;
+				return 0;
+			}
+			return 0;
+		}
+	}
+	new_var = malloc(strlen(name) + strlen(value) + 2);
+	strcpy(new_var, name);
+	strcat(new_var, "=");
+	strcat(new_var, value);
+	environ[i] = new_var;
+	environ[i + 1] = NULL;
+	return 0;
 }
 int _unsetenv(const char *name)
 {
-    int i, j = 0;
+	int i, j = 0;
 
-    if (!name || name[0] == '\0' || strchr(name, '=') != NULL)
-        return -1;
+	if (!name || name[0] == '\0' || strchr(name, '=') != NULL)
+		return -1;
 
-    for (i = 0; environ[i]; i++)
-    {
-        if (strncmp(environ[i], name, strlen(name)) == 0 && environ[i][strlen(name)] == '=')
-        {
-            // Free memory of the environment variable
-            free(environ[i]);
-            
-            // Shift remaining variables
-            for (j = i; environ[j] != NULL; j++)
-            {
-                environ[j] = environ[j + 1];
-            }
-            
-            return 0;
-        }
-    }
+	for (i = 0; environ[i]; i++)
+	{
+		if (strncmp(environ[i], name, strlen(name)) == 0 && environ[i][strlen(name)] == '=')
+		{
+			// Free memory of the environment variable
+			free(environ[i]);
 
-    return 0; // Variable not found, nothing to unset
+			// Shift remaining variables
+			for (j = i; environ[j] != NULL; j++)
+			{
+				environ[j] = environ[j + 1];
+			}
+
+			return 0;
+		}
+	}
+
+	return 0; // Variable not found, nothing to unset
+}
+void _handleNonBuiltInCommands(char **words, char *input_copy, char *buf)
+{
+	if (strcmp(words[0], "setenv") == 0) {
+		execute_setenv(words);
+		_cleaner(words, input_copy);
+		
+	}
+	else if (strcmp(words[0], "unsetenv") == 0) {
+		execute_unsetenv(words);
+		_cleaner(words, input_copy);
+
+	}
+	else
+	{
+	fork_execve(words, buf, words, input_copy);
+	_cleaner(words, input_copy);
+	}
 }
 int main(void)
 {
@@ -275,30 +293,17 @@ int main(void)
 		input_copy = strdup(buf);
 		words = split(input_copy);
 		built_in = get_built_in(words[0]);
-
 		if (built_in == 0)
-		{
 			handle_exit(words, input_copy, buf, status);
-		}
 		else if (built_in == 1)
 		{
 			execute_env();
 			_cleaner(words, input_copy);
 			continue;
 		}
-		 else if (strcmp(words[0], "setenv") == 0) {
-        execute_setenv(words);
-        _cleaner(words, input_copy);
-        continue;
-    }
-     else if (strcmp(words[0], "unsetenv") == 0) {
-        execute_unsetenv(words);
-        _cleaner(words, input_copy);
-        continue;
-    }
-		fork_execve(words, buf, words, input_copy);
-		_cleaner(words, input_copy);
+		else 
+			_handleNonBuiltInCommands(words, input_copy, buf);
 	}
-	free(buf);
-	return (0);
+		free(buf);
+		return (0);
 }
