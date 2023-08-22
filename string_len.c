@@ -39,3 +39,28 @@ char *_strcpy(char *dest, const char *src)
         ;
     return saved_dest;
 }
+char *_strcat(char *dest, const char *src) 
+{
+    char *saved_dest = dest;
+
+    while (*dest != '\0')
+        dest++;
+
+    while ((*dest = *src) != '\0') {
+        dest++;
+        src++;
+    }
+
+    return saved_dest;
+}
+int _strncmp(const char *s1, const char *s2, size_t n) {
+    while (n > 0 && *s1 && *s1 == *s2) {
+        s1++;
+        s2++;
+        n--;
+    }
+    if (n == 0) {
+        return 0;
+    }
+    return *(unsigned char *)s1 - *(unsigned char *)s2;
+}

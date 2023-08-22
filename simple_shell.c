@@ -17,9 +17,9 @@ int get_built_in(char *str)
 {
 	int flag = -1;
 
-	if (_strlen(str) == 4 && strncmp(str, "exit", 4) == 0)
+	if (_strlen(str) == 4 && _strncmp(str, "exit", 4) == 0)
 		flag = 0;
-	else if (_strlen(str) == 3 && strncmp(str, "env", 3) == 0)
+	else if (_strlen(str) == 3 && _strncmp(str, "env", 3) == 0)
 		flag = 1;
 	return (flag);
 }
@@ -40,9 +40,9 @@ char *get_location(char *command)
 	{
 		file_path = malloc(_strlen(command) + 1 + _strlen(path_token) + 1);
 		_strcpy(file_path, path_token);
-		strcat(file_path, "/");
-		strcat(file_path, command);
-		strcat(file_path, "\0");
+		_strcat(file_path, "/");
+		_strcat(file_path, command);
+		_strcat(file_path, "\0");
 
 		if (stat(file_path, &buffer) == 0)
 		{
@@ -201,14 +201,14 @@ int _setenv(const char *name, const char *value, int overwrite)
 
 	for (i = 0; environ[i]; i++)
 	{
-		if (strncmp(environ[i], name, _strlen(name)) == 0)
+		if (_strncmp(environ[i], name, _strlen(name)) == 0)
 		{
 			if (overwrite)
 			{
 				new_var = malloc(_strlen(name) + _strlen(value) + 2);
 				_strcpy(new_var, name);
-				strcat(new_var, "=");
-				strcat(new_var, value);
+				_strcat(new_var, "=");
+				_strcat(new_var, value);
 				environ[i] = new_var;
 				return (0);
 			}
@@ -217,8 +217,8 @@ int _setenv(const char *name, const char *value, int overwrite)
 	}
 	new_var = malloc(_strlen(name) + _strlen(value) + 2);
 	_strcpy(new_var, name);
-	strcat(new_var, "=");
-	strcat(new_var, value);
+	_strcat(new_var, "=");
+	_strcat(new_var, value);
 	environ[i] = new_var;
 	environ[i + 1] = NULL;
 	return (0);
@@ -232,7 +232,7 @@ int _unsetenv(const char *name)
 
 	for (i = 0; environ[i]; i++)
 	{
-		if (strncmp(environ[i], name, _strlen(name)) == 0
+		if (_strncmp(environ[i], name, _strlen(name)) == 0
 				&& environ[i][_strlen(name)] == '=')
 		{
 			free(environ[i]);
