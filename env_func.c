@@ -1,5 +1,9 @@
 #include "header.h"
-.....
+
+/**
+ * execute_env - Execute the "env" built-in command
+ */
+
 void execute_env(void)
 {
 	int i;
@@ -12,11 +16,17 @@ void execute_env(void)
 	}
 }
 
+/**
+ * execute_setenv - Execute the "setenv" built-in command
+ * @args: Array of arguments containing variable name and value
+ */
+
 void execute_setenv(char **args)
 {
 	if (args[1] == NULL || args[2] == NULL)
 	{
-		write(STDERR_FILENO, "Usage: setenv VARIABLE VALUE\n", _strlen("Usage: setenv VARIABLE VALUE\n"));
+		write(STDERR_FILENO, "Usage: setenv VARIABLE VALUE\n",
+				_strlen("Usage: setenv VARIABLE VALUE\n"));
 		return;
 	}
 	if (setenv(args[1], args[2], 1) != 0)
@@ -28,7 +38,8 @@ void execute_unsetenv(char **args)
 {
 	if (args[1] == NULL)
 	{
-		write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n", _strlen("Usage: unsetenv VARIABLE\n"));
+		write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n",
+				_strlen("Usage: unsetenv VARIABLE\n"));
 		return;
 	}
 
