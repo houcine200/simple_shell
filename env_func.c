@@ -75,7 +75,7 @@ int _setenv(const char *var_name, const char *var_value, int flag_overwrite)
 	{
 		if (_strncmp(environ[i], var_name, _strlen(var_name)) == 0)
 		{
-			if (flar_overwrite)
+			if (flag_overwrite)
 			{
 				new_var = malloc(_strlen(var_name) + _strlen(var_value) + 2);
 				_strcpy(new_var, var_name);
@@ -112,7 +112,7 @@ int _unsetenv(const char *var_name)
 	for (i = 0; environ[i]; i++)
 	{
 		if (_strncmp(environ[i], var_name, _strlen(var_name)) == 0
-				&& environ[i][_strlen(name)] == '=')
+				&& environ[i][_strlen(var_name)] == '=')
 		{
 			free(environ[i]);
 

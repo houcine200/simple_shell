@@ -22,21 +22,20 @@ int _strlen(const char *s)
  */
 char *_strdup(char *str)
 {
-	int len = 0, j = 0;
+	int len, j;
 	char *buff;
 
-	if (!str)
+	if (str == NULL)
 		return (NULL);
-	while (str[len] != '\0')
-		len++;
+
+	for (len = 0; str[len] != '\0'; len++);
+
 	buff = malloc(sizeof(char) * (len + 1));
-	if (!buff)
+	if (buff == NULL)
 		return (NULL);
-	while (str[j] != '\0')
-	{
+
+	for (j = 0; str[j] != '\0'; j++)
 		buff[j] = str[j];
-		j++;
-	}
 	buff[j] = '\0';
 	return (buff);
 }
@@ -50,11 +49,13 @@ char *_strdup(char *str)
  */
 char *_strcpy(char *dest, const char *src)
 {
-	char *saved_dest = dest;
-
-	while ((*dest++ = *src++))
+	char *dest_copy = dest;
+	int i;
+	
+	for (i = 0; (dest[i] = src[i]); i++)
 		;
-	return (saved_dest);
+
+	return (dest_copy);
 }
 
 /**
