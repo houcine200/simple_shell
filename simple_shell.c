@@ -1,10 +1,3 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include "header.h"
 
 /**
@@ -16,16 +9,16 @@
 int main(void)
 {
 	char *buf = NULL, *input_copy;
-	size_t buf_size = 0;
-	ssize_t n_char = 0;
+	size_t size_buf = 0;
+	ssize_t nb_chars = 0;
 	char **words;
 	int built_in, status = 0;
 
 	while (1)
 	{
 		_prompt();
-		n_char = getline(&buf, &buf_size, stdin);
-		if (n_char == -1)
+		nb_chars = getline(&buf, &size_buf, stdin);
+		if (nb_chars == -1)
 		{
 			if (isatty(STDIN_FILENO) == 1)
 				write(1, "\n", 1);
@@ -33,8 +26,8 @@ int main(void)
 		}
 		if (buf[0] == '\n')
 			continue;
-		if (n_char >= 2)
-			buf[n_char - 1] = '\0';
+		if (nb_chars >= 2)
+			buf[nb_chars - 1] = '\0';
 		if (is_empty_or_whitespace(buf))
 			continue;
 		input_copy = _strdup(buf);
