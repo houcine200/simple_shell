@@ -25,7 +25,7 @@ void _prompt(void)
 
 /**
  * handle_exit - Handle exit built-in command
- * @words: Array of strings 
+ * @words: Array of strings
  * containing command and arguments
  * @input_copy: Copy of the user input
  * @buf: Buffer to free
