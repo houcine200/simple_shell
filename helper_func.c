@@ -13,7 +13,7 @@ int _putchar(char c)
 }
 
 /**
- * _puts - prints a string, followed by a new line.
+ * _puts - prints a string. followed by a new line.
  * @str: input string to print.
  */
 void _puts(char *str)
