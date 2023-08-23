@@ -144,14 +144,14 @@ int get_built_in(char *str)
 char **split(char *str)
 {
 	char *token = strtok(str, " \t\n");
-	char **arr = malloc(sizeof(*arr) * 1024);
+	char **array = malloc(sizeof(*array) * 1024);
 	size_t i = 0;
 
 	for (i = 0; token != NULL; i++)
 	{
-		arr[i] = token;
+		array[i] = token;
 		token = strtok(NULL, " \t\n");
 	}
-	arr[i] = NULL;
-	return (arr);
+	array[i] = NULL;
+	return (array);
 }

@@ -78,27 +78,28 @@ int _atoi(char *s)
 
 char *_getenv(const char *name)
 {
-	size_t nameLen, j;
+	size_t name_l, j;
 	int i;
 	char **env_copy;
 
 	if (name == NULL)
-		return NULL;
+		return (NULL);
 
-	nameLen = _strlen(name);
+	name_l = _strlen(name);
 
 	env_copy = environ;
 
 	for (i = 0; env_copy[i] != NULL; i++)
 	{
-		for (j = 0; env_copy[i][j] != '\0' && j < nameLen && env_copy[i][j] == name[j]; j++)
+		for (j = 0; env_copy[i][j] != '\0' &&
+				j < name_l && env_copy[i][j] == name[j]; j++)
 			;
 
-		if (j == nameLen && env_copy[i][j] == '=')
+		if (j == name_l && env_copy[i][j] == '=')
 		{
-			return (env_copy[i] + nameLen + 1);
+			return (env_copy[i] + name_l + 1);
 		}
 	}
 
-	return NULL;
+	return (NULL);
 }

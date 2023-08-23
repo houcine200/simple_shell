@@ -28,7 +28,8 @@ char *_strdup(char *str)
 	if (str == NULL)
 		return (NULL);
 
-	for (len = 0; str[len] != '\0'; len++);
+	for (len = 0; str[len] != '\0'; len++)
+		;
 
 	buff = malloc(sizeof(char) * (len + 1));
 	if (buff == NULL)
@@ -76,7 +77,7 @@ char *_strcat(char *dest, const char *src)
 	for (j = 0; (dest[i] = src[j]) != '\0'; i++, j++)
 		;
 
-	return buf;
+	return (buf);
 }
 
 /**
@@ -99,7 +100,7 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 
 	if (n == 0)
 	{
-		return 0;
+		return (0);
 	}
 
 	return (*(unsigned char *)&s1[i] - *(unsigned char *)&s2[j]);
