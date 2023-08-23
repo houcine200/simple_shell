@@ -57,10 +57,10 @@ char *get_location(char *command)
 void fork_execve(char **args, char *buf, char **words, char *input_copy)
 {
 	pid_t pid = fork();
-	char *command = args[0], *actual_command = NULL;
+	char *command = args[0], *full_path = NULL;
 	int status;
 
-	actual_command = get_location(command);
+	full_path = get_location(command);
 	if (pid < 0)
 	{
 		perror("error fork");
@@ -70,9 +70,9 @@ void fork_execve(char **args, char *buf, char **words, char *input_copy)
 	}
 	if (pid == 0)
 	{
-		if (actual_command != NULL)
+		if (full_path != NULL)
 		{
-			if (execve(actual_command, args, NULL) == -1)
+			if (execve(full_path, args, NULL) == -1)
 			{
 				perror("error execve");
 				_cleaner(words, input_copy);
@@ -93,8 +93,8 @@ void fork_execve(char **args, char *buf, char **words, char *input_copy)
 	if (pid > 0)
 	{
 		wait(&status);
-		if (actual_command != NULL && actual_command != command)
-			free(actual_command);
+		if (full_path != NULL && full_path != command)
+			free(full_path);
 	}
 }
 
