@@ -1,7 +1,7 @@
 #include "header.h"
 
 /**
- * main - Entry point of the shell program
+ * main - Entry point of the .shell program
  *
  * Return: Always 0.
  */
