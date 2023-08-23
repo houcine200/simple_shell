@@ -4,7 +4,8 @@
  * get_location - Find the location of a command in the PATH.
  * @command: The command to search for.
  *
- * Return: A pointer to the location of the command, or NULL if not found.
+ * Return: A pointer to the location of 
+ * the command, or NULL if not found.
  */
 char *get_location(char *command)
 {
