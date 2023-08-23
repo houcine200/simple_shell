@@ -37,12 +37,12 @@ void _puts(char *str)
  */
 int _strcmp(const char *s1, const char *s2)
 {
-	while (*s1 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+	int i, j;
+
+	for (i = 0, j = 0; s1[i] && s1[i] == s2[j]; i++, j++)
+		;
+
+	return (*(unsigned char *)&s1[i] - *(unsigned char *)&s2[j]);
 }
 /**
  * _atoi - converts a string to an integer.
@@ -78,21 +78,27 @@ int _atoi(char *s)
 
 char *_getenv(const char *name)
 {
-	size_t nameLen;
-	char **env;
+	size_t nameLen, j;
+	int i;
+	char **env_copy;
 
 	if (name == NULL)
-		return (NULL);
+		return NULL;
 
 	nameLen = _strlen(name);
 
-	for (env = environ; *env != NULL; env++)
+	env_copy = environ;
+
+	for (i = 0; env_copy[i] != NULL; i++)
 	{
-		if (_strncmp(*env, name, nameLen) == 0 && (*env)[nameLen] == '=')
+		for (j = 0; env_copy[i][j] != '\0' && j < nameLen && env_copy[i][j] == name[j]; j++)
+			;
+
+		if (j == nameLen && env_copy[i][j] == '=')
 		{
-			return (*env + nameLen + 1);
+			return (env_copy[i] + nameLen + 1);
 		}
 	}
 
-	return (NULL);
+	return NULL;
 }
