@@ -1,11 +1,20 @@
 #include "header.h"
 
+/**
+ * _cleaner - Free allocated memory for words and input_copy
+ * @words: Array of strings to free
+ * @input_copy: String to free
+ */
+
 void _cleaner(char **words, char *input_copy)
 {
 	free(words);
 	free(input_copy);
 }
 
+/**
+ * _prompt - Display a prompt if STDIN is a terminal
+ */
 
 void _prompt(void)
 {
@@ -13,6 +22,13 @@ void _prompt(void)
 		write(1, "$ ", 2);
 }
 
+/**
+ * handle_exit - Handle exit built-in command
+ * @words: Array of strings containing command and arguments
+ * @input_copy: Copy of the user input
+ * @buf: Buffer to free
+ * @status: Exit status value
+ */
 
 void handle_exit(char **words, char *input_copy, char *buf, int status)
 {
@@ -30,6 +46,13 @@ void handle_exit(char **words, char *input_copy, char *buf, int status)
 		exit(status);
 	}
 }
+
+/**
+ * _handleNonBuiltInCommands - Handle non-built-in commands
+ * @words: Array of strings containing command and arguments
+ * @input_copy: Copy of the user input
+ * @buf: Buffer containing user input
+ */
 
 void _handleNonBuiltInCommands(char **words, char *input_copy, char *buf)
 {

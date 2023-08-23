@@ -34,6 +34,12 @@ void execute_setenv(char **args)
 		perror("setenv");
 	}
 }
+
+/**
+ * execute_unsetenv - Execute the "unsetenv" built-in command
+ * @args: Array of arguments containing variable name to unset
+ */
+
 void execute_unsetenv(char **args)
 {
 	if (args[1] == NULL)
@@ -48,6 +54,15 @@ void execute_unsetenv(char **args)
 		perror("unsetenv");
 	}
 }
+
+/**
+ * _setenv - Set a new environment variable or modify an existing one
+ * @name: The name of the variable to set
+ * @value: The value to set for the variable
+ * @overwrite: Flag to determine
+ * if overwriting an existing variable is allowed
+ * Return: 0 on success, -1 on failure
+ */
 int _setenv(const char *name, const char *value, int overwrite)
 {
 	char *new_var;
@@ -80,6 +95,12 @@ int _setenv(const char *name, const char *value, int overwrite)
 	environ[i + 1] = NULL;
 	return (0);
 }
+
+/**
+ * _unsetenv - Remove an environment variable
+ * @name: The name of the variable to remove
+ * Return: 0 on success, -1 on failure
+ */
 
 int _unsetenv(const char *name)
 {

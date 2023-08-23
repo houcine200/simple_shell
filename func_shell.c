@@ -1,5 +1,11 @@
 #include "header.h"
 
+/**
+ * get_location - Find the location of a command in the PATH.
+ * @command: The command to search for.
+ *
+ * Return: A pointer to the location of the command, or NULL if not found.
+ */
 char *get_location(char *command)
 {
 	char *path, *path_copy, *path_token, *file_path;
@@ -39,6 +45,14 @@ char *get_location(char *command)
 	else
 		return (NULL);
 }
+
+/**
+ * fork_execve - Fork and execute a command using execve.
+ * @args: The array of arguments for the command.
+ * @buf: The buffer containing the command line input.
+ * @words: The array of words parsed from the input.
+ * @input_copy: A copy of the input buffer.
+*/
 
 void fork_execve(char **args, char *buf, char **words, char *input_copy)
 {
@@ -84,6 +98,14 @@ void fork_execve(char **args, char *buf, char **words, char *input_copy)
 	}
 }
 
+/**
+ * is_empty_or_whitespace - Check if
+ * a string is empty or contains only whitespace.
+ * @str: The string to check.
+ *
+ * Return: 1 if the string is empty
+ *or contains only whitespace, 0 otherwise.
+ */
 int is_empty_or_whitespace(const char *str)
 {
 	int i;
@@ -94,6 +116,13 @@ int is_empty_or_whitespace(const char *str)
 	return (1);
 }
 
+/**
+ * get_built_in - Determine if a given command is a built-in command.
+ * @str: The command string to check.
+ *
+ * Return: 0 if the command is "exit"
+ * 1 if the command is "env", -1 otherwise.
+ */
 int get_built_in(char *str)
 {
 	int flag = -1;
@@ -105,6 +134,13 @@ int get_built_in(char *str)
 	return (flag);
 }
 
+/**
+ * split - Split a string into an array of words.
+ * @str: The string to split.
+ *
+ * Return: A dynamically allocated array of strings containing the words.
+ *         The last element of the array is NULL.
+ */
 char **split(char *str)
 {
 	char *token = strtok(str, " \t\n");
