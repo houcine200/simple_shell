@@ -17,7 +17,7 @@ int _strlen(const char *s)
  * _strdup - Duplicate a string.
  * @str: The string to duplicate.
  *
- * Return: A pointer to the newly allocated duplicated string.
+ * Return: A pointer to the newly allocated duplicated string,
  *         NULL if str is NULL or if memory allocation fails.
  */
 char *_strdup(char *str)
