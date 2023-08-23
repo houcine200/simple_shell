@@ -74,3 +74,28 @@ void _handleNonBuiltInCommands(char **words, char *input_copy, char *buf)
 		_cleaner(words, input_copy);
 	}
 }
+#include <stddef.h>
+
+/**
+ * strchr - Locate first occurrence of a character in a string
+ * @str: The string to search
+ * @character: The character to search for
+ *
+ * Return: A pointer to the first occurrence of @character in @str,
+ *         or NULL if @character is not found
+ */
+char *_strchr(const char *str, int character) 
+{
+	size_t i;
+
+	for (i = 0; str[i] != '\0'; i++) 
+	{
+		if (str[i] == character) 
+		{
+			return (char *)(str + i); 
+		}
+	}
+
+	return NULL;
+}
+

@@ -106,7 +106,7 @@ int _unsetenv(const char *var_name)
 {
 	int i, j = 0;
 
-	if (var_name == NULL || var_name[0] == '\0' || strchr(var_name, '=') != NULL)
+	if (var_name == NULL || var_name[0] == '\0' || _strchr(var_name, '=') != NULL)
 		return (-1);
 
 	for (i = 0; environ[i] != NULL; i++)

@@ -26,6 +26,7 @@ void execute_unsetenv(char **args);
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *name);
 void _handleNonBuiltInCommands(char **words, char *input_copy, char *buf);
+char *_strchr(const char *str, int character);
 
 int _putchar(char c);
 void _puts(char *str);
