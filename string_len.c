@@ -51,7 +51,7 @@ char *_strcpy(char *dest, const char *src)
 {
 	char *dest_copy = dest;
 	int i;
-	
+
 	for (i = 0; (dest[i] = src[i]); i++)
 		;
 
@@ -67,18 +67,16 @@ char *_strcpy(char *dest, const char *src)
  */
 char *_strcat(char *dest, const char *src)
 {
-	char *saved_dest = dest;
+	char *buf = dest;
+	int i, j;
 
-	while (*dest != '\0')
-		dest++;
+	for (i = 0; dest[i] != '\0'; i++)
+		;
 
-	while ((*dest = *src) != '\0')
-	{
-		dest++;
-		src++;
-	}
+	for (j = 0; (dest[i] = src[j]) != '\0'; i++, j++)
+		;
 
-	return (saved_dest);
+	return buf;
 }
 
 /**
