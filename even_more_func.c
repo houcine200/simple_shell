@@ -1,7 +1,8 @@
 #include "header.h"
 
 /**
- * _cleaner - Free allocated memory for words and input_copy
+ * _cleaner - Free allocated memory
+ * for words and input_copy
  * @words: Array of strings to free
  * @input_copy: String to free
  */
@@ -24,7 +25,8 @@ void _prompt(void)
 
 /**
  * handle_exit - Handle exit built-in command
- * @words: Array of strings containing command and arguments
+ * @words: Array of strings 
+ * containing command and arguments
  * @input_copy: Copy of the user input
  * @buf: Buffer to free
  * @status: Exit status value
