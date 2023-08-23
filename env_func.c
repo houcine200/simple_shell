@@ -18,7 +18,8 @@ void execute_env(void)
 
 /**
  * execute_setenv - Execute the "setenv" built-in command
- * @args: Array of arguments containing variable name and value
+ * @args: Array of arguments
+ * containing variable name and value
  */
 
 void execute_setenv(char **args)
