@@ -7,3 +7,5 @@
 -Supports basic command-line operations like executing external programs.
 -Handles process creation and management using fork() and exec() functions.
 -Supports basic input/output redirection.
+
+Working on a programme shell that let us input commands shell and give us the same output as terminal linux shell.
