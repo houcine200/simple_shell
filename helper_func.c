@@ -26,13 +26,23 @@ void _puts(char *str)
 	}
 	_putchar('\n');
 }
-int _strcmp(const char *s1, const char *s2) 
+
+/**
+ * _strcmp - Compare two strings.
+ * @s1: Pointer to the first string.
+ * @s2: Pointer to the second string.
+ *
+ * Return: 0 if strings are equal, negative if s1 < s2,
+ *         and positive if s1 > s2.
+ */
+int _strcmp(const char *s1, const char *s2)
 {
-	while (*s1 && *s1 == *s2) {
+	while (*s1 && *s1 == *s2)
+	{
 		s1++;
 		s2++;
 	}
-	return *(unsigned char *)s1 - *(unsigned char *)s2;
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 /**
  * _atoi - converts a string to an integer.
@@ -57,14 +67,22 @@ int _atoi(char *s)
 	}
 	return (num * sign);
 }
-char *_getenv(const char *name) 
+
+/**
+ * _getenv - Get the value of an environment variable.
+ * @name: Name of the environment variable.
+ *
+ * Return: Pointer to the value of the environment variable.
+ *         NULL if the variable doesn't exist.
+ */
+
+char *_getenv(const char *name)
 {
 	size_t nameLen;
 	char **env;
 
-	if (name == NULL) {
+	if (name == NULL)
 		return (NULL);
-	}
 
 	nameLen = _strlen(name);
 
