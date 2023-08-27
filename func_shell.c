@@ -88,7 +88,7 @@ void fork_execve(char **args, char *buf, char **words, char *input_copy)
 			write(STDERR_FILENO, "\n", 1);
 			_cleaner(words, input_copy);
 			free(buf);
-			exit(0);
+			exit(2);
 		}
 	}
 	if (pid > 0)
